@@ -1,10 +1,12 @@
 const express = require('express')
 const path = require('path');
+require('dotenv').config();
 
 const app = express()
-const port = 8080
-const hostname = "localhost"
+const port = process.env.PORT || 8888;
+const hostname = process.env.HOST_NAME || 'localhost2';
 
+//console.log(">>> check env :", process.env);
 
 app.set('views', './views')
 app.set('view engine', 'ejs')
