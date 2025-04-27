@@ -11,6 +11,8 @@ const hostname = process.env.HOST_NAME || 'localhost2';
 app.set('views', './views')
 app.set('view engine', 'ejs')
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', (req, res) => {
     res.send('Hello World and Nodemon!!!')
 })
