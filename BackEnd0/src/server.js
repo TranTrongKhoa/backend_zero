@@ -7,9 +7,8 @@ const port = process.env.PORT || 8888;
 const hostname = process.env.HOST_NAME || 'localhost2';
 
 //console.log(">>> check env :", process.env);
-
-app.set('views', './views')
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
+app.set('views', './src/views');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -23,8 +22,7 @@ app.get('/abc', (req, res) => {
 })
 
 app.get('/hoidanit', (req, res) => {
-    //res.render('./views/sample.ejs')
-    res.render('sample', { title: 'Hello World' });
+    res.render('sample');
 })
 
 app.listen(port, hostname, () => {
