@@ -14,6 +14,7 @@
   "author": "Khoa",
   "license": "ISC",
   "dependencies": {
-    "express": "4.18.2"
+    "express": "4.18.2",
+    "mysql2": "^3.16.0"
   }
 }
