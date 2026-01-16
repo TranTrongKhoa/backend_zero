@@ -1,11 +1,15 @@
 const express = require('express');
 const mysql = require('mysql2');
+const cors = require("cors");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 const app = express();
 app.use(express.json());
 const hostname = '127.0.0.1';
 const port = 3001;
 
+app.use(cors()); // Sử dụng CORS để cho phép truy cập từ frontend
 /**
  * Kết nối MySQL
  */
@@ -87,6 +91,30 @@ app.post('/addGold', (req, res) => {
             insertedId: result.insertId
         });
     });
+});
+
+app.get("/fetchBtmc", async (req, res) => {
+    const { url } = req.query;
+
+    if (!url) {
+        return res.status(400).json({ error: "Thiếu tham số url" });
+    }
+
+    try {
+        // Tải HTML từ url
+        const response = await axios.get(url, { timeout: 10000 });
+        const html = response.data;
+
+        // Parse HTML bằng cheerio
+        const $ = cheerio.load(html);
+
+        const raw = $(".bd_price_home tr:nth-child(2) td:nth-child(4) b").text();
+        const firstValue = raw.trim().split(/\s+/)[0];
+        const firstNumber = parseInt(firstValue, 10);
+        res.json({ buy: firstNumber, sell: (firstNumber + 300) });
+    } catch (error) {
+        res.status(500).json({ error: "Không thể lấy dữ liệu", details: error.message });
+    }
 });
 
 app.listen(port, hostname, () => {
