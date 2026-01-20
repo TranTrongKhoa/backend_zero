@@ -94,15 +94,9 @@ app.post('/addGold', (req, res) => {
 });
 
 app.get("/fetchBtmc", async (req, res) => {
-    const { url } = req.query;
-
-    if (!url) {
-        return res.status(400).json({ error: "Thiếu tham số url" });
-    }
-
     try {
         // Tải HTML từ url
-        const response = await axios.get(url, { timeout: 10000 });
+        const response = await axios.get("https://btmc.vn/", { timeout: 10000 });
         const html = response.data;
 
         // Parse HTML bằng cheerio
